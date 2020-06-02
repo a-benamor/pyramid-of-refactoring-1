@@ -5,6 +5,7 @@
 package pl.refactoring.interpreter.basement;
 
 import pl.refactoring.interpreter.basement.specs.BelowAreaSpec;
+import pl.refactoring.interpreter.basement.specs.MaterialSpec;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,27 +30,13 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byMaterial(EstateMaterial material){
-        List<RealEstate> foundRealEstates = new ArrayList<>();
-
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (estate.getMaterial().equals(material))
-                foundRealEstates.add(estate);
-        }
-        return foundRealEstates;
+        return bySpec(new MaterialSpec(material));
     }
 
     public List<RealEstate> byMaterialBelowArea(EstateMaterial material, float maxBuildingArea){
-        List<RealEstate> foundRealEstates = new ArrayList<>();
 
-        Iterator<RealEstate> estates = repository.iterator();
-        while (estates.hasNext()) {
-            RealEstate estate = estates.next();
-            if (estate.getMaterial().equals(material) && estate.getBuildingArea() < maxBuildingArea)
-                foundRealEstates.add(estate);
-        }
-        return foundRealEstates;
+        return bySpec(new AndSpec(new BelowAreaSpec(maxBuildingArea)
+                , new MaterialSpec(material)));
     }
 
     public List<RealEstate> byPlacement(EstatePlacement placement){
@@ -101,12 +88,15 @@ public class RealEstateFinder {
     }
 
     public List<RealEstate> byVerySpecificCriteria(EstateType type, EstatePlacement placement, EstateMaterial material){
+
+        Spec spec = new MaterialSpec(material);
+
         List<RealEstate> foundRealEstates = new ArrayList<>();
 
         Iterator<RealEstate> estates = repository.iterator();
         while (estates.hasNext()) {
             RealEstate estate = estates.next();
-            if (estate.getType().equals(type) && estate.getPlacement().equals(placement) && estate.getMaterial().equals(material))
+            if (estate.getType().equals(type) && estate.getPlacement().equals(placement) && spec.isSatisfiedBy(estate))
                 foundRealEstates.add(estate);
         }
         return foundRealEstates;
