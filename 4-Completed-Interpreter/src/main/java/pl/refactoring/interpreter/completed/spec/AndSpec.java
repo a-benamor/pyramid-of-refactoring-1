@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 public class AndSpec implements Spec {
     private Spec[] specs;
 
-    public AndSpec(Spec ... specs) {
+    public AndSpec(Spec... specs) {
         this.specs = specs;
     }
 

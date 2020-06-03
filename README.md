@@ -1,28 +1,28 @@
-# Pyramid of Refactoring
+# About the project
 
-Corypight (c) 2018 IT Train Wlodzimierz Krakowski (www.refactoring.pl)
+This project was made for educational purpose only in order to learn and perform some refactoring techniques to ameliorate the quality of a given legacy code.
 
-This code is inspired by Joshua Kerievsky's book "Refactoring to Patterns"
-but the refactorings used during talk are more sophisticated as
-extract delegate, extract functional parameter, Java 8 streams and much more
-other code-transformations have been used.
+It is the course project of the [Pyramid of Refactoring (Java) - Cleaning Code Gradually](https://www.udemy.com/certificate/UC-b578c0ca-66f0-4468-9b6a-e5b84f491914/) online course by M Wlodek Krakowski.
 
-It is used as sample to explain my own concept of "Pyramid of Refactoring"
-and to perform live-refactoring during the talk "Pyramid of Refactoring"
-and present the levels of pyramid.
+During the online course, I have practiced refactoring on a practical example: 
+ - Emerge the design pattern Interpreter in the existing code.
+ - Emerge the design pattern Factory Method in order to hide the complexity of the object creation.
+ - Emerge the design pattern Builder.
 
-Levels:
-- Flow (replace loop with pipeline, slide statements)
-- Methods (extract isSatisfiedBy method)
-- Classes (extract delegate, extract functional parameter, move anonymous into class)
-- Patterns (extract interface Spec, introduce Interpreter Design Pattern)
-- Architectures (more specs into "spec" subpackages according to Dependency Inversion Principle)
+I have applied the SOLID principle during refactoring such as: 
+- Single responsibility principle.
+- Interface Segregation principle.
+- Open closed principle.
+- Dependency inversion principle.
 
-![Pyramid of Refactoring](images/Pyramid_of_refactoring.jpg)
 
-Please note that 
-- each sample from "Refactoring to Patterns" (by Joshua Kerievsky)
-can be divided into parts beloning to each level of pyramid.
-- each sample from "Refactoring" (by Marcin Fowler) can be placed
-somewhere within the pyramid.
+I have also used IntelliJ shortcuts to extract classes such as: 
+- Extract delegate
+- Extract Parameter object
+- Extract Method object
+- And much more...
 
+Please note that: 
+- The module 4-Completed-Interpreter is the last increment of the refactoring in this course.
+- This code is inspired by Joshua Kerievsky's book "Refactoring to Patterns"
+- Corypight (c) 2018 IT Train Wlodzimierz Krakowski (www.refactoring.pl)

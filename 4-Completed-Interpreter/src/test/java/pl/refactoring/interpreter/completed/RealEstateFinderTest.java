@@ -4,7 +4,7 @@
 
 package pl.refactoring.interpreter.completed;
 
-import org.junit.jupiter.api.BeforeAll;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
@@ -16,7 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class RealEstateFinderTest {
-    private RealEstateFinder finder;
 
     private static final RealEstate WOODEN_VILLAGE_BUNGALLOW =
             new RealEstate(1, 140, EstatePlacement.VILLAGE,
@@ -46,7 +45,7 @@ public class RealEstateFinderTest {
             new RealEstate(7, 69, EstatePlacement.CITY,
                     EstateType.FLAT, EstateMaterial.BRICK);
 
-    private List<RealEstate> createProductRepository() {
+    private static List<RealEstate> createProductRepository() {
         return Arrays.asList(WOODEN_VILLAGE_BUNGALLOW,
                 WOODEN_VILLAGE_HOUSE,
                 BRICK_TOWN_HOUSE,
@@ -56,96 +55,104 @@ public class RealEstateFinderTest {
                 BRICK_CITY_FLAT);
     }
 
-    @BeforeAll
-    public void setUp() {
-        finder = new RealEstateFinder(createProductRepository());
-    }
+    public static final List<RealEstate> PRODUCT_REPOSITORY = createProductRepository();
+
+    private static final RealEstateFinder FINDER = new RealEstateFinder(PRODUCT_REPOSITORY);
 
     @Test
     public void findSmallRealEstates() {
         //when
-        List<RealEstate> foundResults = finder.byBelowArea(70);
+        List<RealEstate> foundResults = FINDER.byBelowArea(70);
 
         //then
-        assertEquals(2, foundResults.size(), "found 2 estates");
+        Assertions.assertThat(foundResults)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(FERROCONCRETE_CITY_FLAT, BRICK_CITY_FLAT );
+
+
+       /* assertEquals(2, foundResults.size(), "found 2 estates");
         assertTrue(foundResults.contains(FERROCONCRETE_CITY_FLAT));
-        assertTrue(foundResults.contains(BRICK_CITY_FLAT));
+        assertTrue(foundResults.contains(BRICK_CITY_FLAT));*/
     }
 
     @Test
     public void findWoodenRealEstates() {
         //when
-        List<RealEstate> foundResults = finder.byMaterial(EstateMaterial.WOOD);
+        List<RealEstate> foundResults = FINDER.byMaterial(EstateMaterial.WOOD);
 
         //then
-        assertEquals(2, foundResults.size(), "found 2 estates");
-        assertTrue(foundResults.contains(WOODEN_VILLAGE_BUNGALLOW));
-        assertTrue(foundResults.contains(WOODEN_VILLAGE_HOUSE));
+
+        Assertions.assertThat(foundResults)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(WOODEN_VILLAGE_BUNGALLOW,WOODEN_VILLAGE_HOUSE );
+
     }
 
     @Test
     public void findWoodenSmallProperty() {
         //when
-        List<RealEstate> foundResults = finder.byMaterialBelowArea(EstateMaterial.WOOD, 150);
+        List<RealEstate> foundResults = FINDER.byMaterialBelowArea(EstateMaterial.WOOD, 150);
 
-        //then
-        assertEquals(1, foundResults.size(), "found 1 estate");
-        assertTrue(foundResults.contains(WOODEN_VILLAGE_BUNGALLOW));
+        Assertions.assertThat(foundResults)
+                .containsExactly(WOODEN_VILLAGE_BUNGALLOW);
+
     }
 
     @Test
     public void findRealEstatesInTown() {
         //when
-        List<RealEstate> foundResults = finder.byPlacement(EstatePlacement.TOWN);
+        List<RealEstate> foundResults = FINDER.byPlacement(EstatePlacement.TOWN);
 
         //then
-        assertEquals(2, foundResults.size(), "found 2 estates");
-        assertTrue(foundResults.contains(BRICK_TOWN_HOUSE));
-        assertTrue(foundResults.contains(STONE_TOWN_CASTLE));
+
+        Assertions.assertThat(foundResults)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(BRICK_TOWN_HOUSE, STONE_TOWN_CASTLE);
     }
 
     @Test
     public void findNonVillageRealEstates() {
         //when
-        List<RealEstate> foundResults = finder.byAvoidingPlacement(EstatePlacement.VILLAGE);
+        List<RealEstate> foundResults = FINDER.byAvoidingPlacement(EstatePlacement.VILLAGE);
 
         //then
-        assertEquals(4, foundResults.size(), "found 4 estates");
-        assertTrue(foundResults.contains(STONE_TOWN_CASTLE));
-        assertTrue(foundResults.contains(BRICK_TOWN_HOUSE));
-        assertTrue(foundResults.contains(BRICK_CITY_FLAT));
-        assertTrue(foundResults.contains(FERROCONCRETE_CITY_FLAT));
+        Assertions.assertThat(foundResults)
+                .hasSize(4)
+                .containsExactlyInAnyOrder(STONE_TOWN_CASTLE, BRICK_TOWN_HOUSE, BRICK_CITY_FLAT,
+                        FERROCONCRETE_CITY_FLAT);
     }
 
     @Test
     public void findByAreaRange() {
         //when
-        List<RealEstate> foundResults = finder.byAreaRange(130, 140);
+        List<RealEstate> foundResults = FINDER.byAreaRange(130, 140);
 
         //then
-        assertEquals(2, foundResults.size(), "found 2 estates");
-        assertTrue(foundResults.contains(BRICK_VILLAGE_BUNGALLOW));
-        assertTrue(foundResults.contains(WOODEN_VILLAGE_BUNGALLOW));
+        Assertions.assertThat(foundResults)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(BRICK_VILLAGE_BUNGALLOW, WOODEN_VILLAGE_BUNGALLOW);
+
     }
 
     @Test
     public void findAllHouses() {
         //when
-        List<RealEstate> foundResults = finder.byType(EstateType.HOUSE);
+        List<RealEstate> foundResults = FINDER.byType(EstateType.HOUSE);
 
         //then
-        assertEquals(2, foundResults.size(), "found 2 estates");
-        assertTrue(foundResults.contains(BRICK_TOWN_HOUSE));
-        assertTrue(foundResults.contains(WOODEN_VILLAGE_HOUSE));
+        Assertions.assertThat(foundResults)
+                .hasSize(2)
+                .containsExactlyInAnyOrder(BRICK_TOWN_HOUSE, WOODEN_VILLAGE_HOUSE);
     }
 
     @Test
     public void findStoneCastlesInTowns() {
         //when
-        List<RealEstate> foundResults = finder.byVerySpecificCriteria(EstateType.CASTLE, EstatePlacement.TOWN, EstateMaterial.STONE);
+        List<RealEstate> foundResults = FINDER.byVerySpecificCriteria(EstateType.CASTLE, EstatePlacement.TOWN, EstateMaterial.STONE);
 
         //then
-        assertEquals(1, foundResults.size(), "found 1 estate");
-        assertTrue(foundResults.contains(STONE_TOWN_CASTLE));
+        Assertions.assertThat(foundResults)
+                .containsExactly(STONE_TOWN_CASTLE);
+
     }
 }
