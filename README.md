@@ -25,4 +25,4 @@ I have also used IntelliJ shortcuts to extract classes such as:
 Please note that: 
 - The module 4-Completed-Interpreter is the last increment of the refactoring in this course.
 - This code is inspired by Joshua Kerievsky's book "Refactoring to Patterns"
-- Corypight (c) 2018 IT Train Wlodzimierz Krakowski (www.refactoring.pl)
+- Corypight (c) 2018 IT Train Wlodzimierz Krakowski
