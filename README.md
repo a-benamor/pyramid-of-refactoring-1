@@ -1,6 +1,6 @@
 # About the project
 
-This project was made for educational purpose only in order to learn and perform some refactoring techniques to ameliorate the quality of a given legacy code.
+This project was made for educational purpose only in order to learn and perform some refactoring techniques to improve the quality of a given legacy code.
 
 It is the course project of the [Pyramid of Refactoring (Java) - Cleaning Code Gradually](https://www.udemy.com/certificate/UC-b578c0ca-66f0-4468-9b6a-e5b84f491914/) online course by M Wlodek Krakowski.
 
